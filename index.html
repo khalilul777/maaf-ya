@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maaf Ya Sayang... ❤️</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ffdeeb 0%, #ffeaf2 100%);
+      color: #4a4a4a;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .card-container {
+      background: #ffffff;
+      max-width: 480px;
+      width: 100%;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 12px 35px rgba(230, 100, 140, 0.18);
+      text-align: center;
+      position: relative;
+    }
+
+    /* Avatar Utama */
+    .avatar-wrapper {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      margin: 0 auto 15px auto;
+    }
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #ff758c;
+      box-shadow: 0 8px 20px rgba(255, 117, 140, 0.35);
+      animation: pulse 2s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 117, 140, 0.4); }
+      100% { transform: scale(1.04); box-shadow: 0 0 0 12px rgba(255, 117, 140, 0); }
+    }
+
+    h1 {
+      color: #d83a6f;
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    /* Grid Thumbnail Foto Pop-up */
+    .gallery-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ff5e7e;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .thumbnails-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .thumb-item {
+      width: 100%;
+      height: 110px;
+      border-radius: 14px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .thumb-item:hover {
+      transform: translateY(-4px) scale(1.03);
+      border-color: #ff758c;
+    }
+
+    /* Tombol Pemicu Surat Maaf */
+    .btn-open-letter {
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 117, 140, 0.3);
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    .btn-open-letter:hover {
+      transform: scale(1.02);
+    }
+
+    /* Box Surat Maaf (Awalnya tersembunyi) */
+    .letter-section {
+      display: none;
+      margin-top: 25px;
+      background: #fff5f8;
+      border: 1.5px dashed #ff9ebb;
+      padding: 20px;
+      border-radius: 16px;
+      text-align: left;
+      animation: fadeIn 0.5s ease-in-out forwards;
+    }
+
+    .letter-section p {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    /* Area Tombol Pilihan */
+    .action-area {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      min-height: 50px;
+      position: relative;
+    }
+
+    .btn-choice {
+      padding: 10px 22px;
+      border: none;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .btn-yes {
+      background-color: #2ed573;
+      color: white;
+      box-shadow: 0 4px 12px rgba(46, 213, 115, 0.3);
+    }
+
+    .btn-no {
+      background-color: #ffa502;
+      color: white;
+      position: absolute;
+      right: 20px;
+    }
+
+    /* Modal Pop-up Foto & Pujian */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: #ffffff;
+      padding: 22px;
+      border-radius: 20px;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      animation: popIn 0.3s ease-out;
+      position: relative;
+    }
+
+    .modal-img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .modal-praise {
+      font-size: 0.95rem;
+      color: #d83a6f;
+      font-weight: 600;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .btn-close-modal {
+      background: #eee;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #666;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card-container" id="main-card">
+    <!-- Avatar Foto Utama (Dari Google Drive) -->
+    <div class="avatar-wrapper">
+      <img src="https://lh3.googleusercontent.com/d/1iS7fK9xFn5PID281pLdKb9sfEzi1bbLQ" alt="Foto Utama" class="avatar-img">
+    </div>
+
+    <h1>Halo Sayang... ✨</h1>
+    <p class="subtitle">Pencet foto-foto di bawah ini yaa...</p>
+
+    <!-- Galeri Pop-up 4 Foto (Dari Google Drive) -->
+    <div class="gallery-title">✨ Klik foto buat lihat sesuatu ✨</div>
+    <div class="thumbnails-grid">
+      <img src="https://lh3.googleusercontent.com/d/1EKuoEZv4dQpshimJ80BNE0NCgyu8KefI" class="thumb-item" onclick="openPopup(0)" alt="Foto 1">
+      <img src="https://lh3.googleusercontent.com/d/1Nj_Ho7FIGZXS0GPJCtasExG0lNA4ru8z" class="thumb-item" onclick="openPopup(1)" alt="Foto 2">
+      <img src="https://lh3.googleusercontent.com/d/1Jc45lgCq8h57hULmYPMqzMVTovP5jtVI" class="thumb-item" onclick="openPopup(2)" alt="Foto 3">
+      <img src="https://lh3.googleusercontent.com/d/1wEweGzdt_CAqcj2R611AwzprOKyp7dGe" class="thumb-item" onclick="openPopup(3)" alt="Foto 4">
+    </div>
+
+    <!-- Tombol Buka Surat Maaf -->
+    <button class="btn-open-letter" id="btn-letter" onclick="showLetter()">Buka Surat Maaf ✉️</button>
+
+    <!-- Isi Surat Maaf &
